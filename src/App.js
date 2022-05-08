@@ -1,9 +1,11 @@
 import React from "react";
 import "./App.css";
+import Posts from "./components/Posts";
 import TaskForm from "./components/TaskForm";
 
 import Tasks from "./components/Tasks";
 import tasks from "./sample/task.json";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 class App extends React.Component {
   state = {
@@ -32,14 +34,35 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <TaskForm addTask={this.addTask}> </TaskForm>
-        <Tasks
-          tasks={this.state.tasks}
-          delete={this.deleteTask}
-          checkDone={this.checkDone}
-        ></Tasks>
-      </div>
+      <Router>
+        <div>
+          <ul>
+            <li>
+              <Link to="/">Posts</Link>
+            </li>
+            <li>
+              <Link to="/tasks">Tasks</Link>
+            </li>
+          </ul>
+          <Routes>
+            <Route exact path="/" element={<Posts />}></Route>
+            <Route
+              exact
+              path="/tasks"
+              element={
+                <>
+                  <TaskForm addTask={this.addTask}> </TaskForm>
+                  <Tasks
+                    tasks={this.state.tasks}
+                    delete={this.deleteTask}
+                    checkDone={this.checkDone}
+                  ></Tasks>
+                </>
+              }
+            ></Route>
+          </Routes>
+        </div>
+      </Router>
     );
   }
 }
